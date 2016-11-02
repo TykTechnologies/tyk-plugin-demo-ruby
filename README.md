@@ -30,3 +30,7 @@ This plugin will allow users to write middleware for Tyk using [Ruby](https://ww
         curl -v http://localhost:8080/grpc-api-test/headers
 
 This will then make a request to the server using the middleware defined in the `grpc_app_sample.json` file.
+
+## License
+
+This project is released under the MPL v2.0. See [full version of the license](LICENSE.md).
