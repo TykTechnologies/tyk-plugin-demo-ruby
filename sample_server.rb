@@ -1,16 +1,15 @@
 require './tyk/dispatcher'
-
 require './tyk/coprocess_session_state_pb'
-
 require 'json'
-require "pry"
 
 class SampleServer < Coprocess::Dispatcher::Service
-  # Implements a dynamic dispatcher for CP objects, this class should provide methods for your hooks (see MyPreMiddleware).
+  # Implements a dynamic dispatcher for CP objects, this class should provide
+  # methods for your hooks (see MyPreMiddleware).
   def dispatch(coprocess_object, _unused_call)
     begin
       if !coprocess_object.hook_name.nil?
-        coprocess_object = self.send(coprocess_object.hook_name, coprocess_object)
+        coprocess_object = self.send(coprocess_object.hook_name,
+				     coprocess_object)
 	dispatch_event(coprocess_object, _unused_call)
       else
         raise Coprocess::Dispatcher::HookNotImplemented
@@ -25,8 +24,8 @@ class SampleServer < Coprocess::Dispatcher::Service
 
   # Implements an event dispatcher.
   def dispatch_event(event_wrapper, _unused_call)
-    event = JSON.parse(event_wrapper["request"].to_json)
-    puts "dispatch_event: #{event}"
+    event = JSON.parse(event_wrapper.to_json)
+    puts "Receiving object: #{event}"
     return Coprocess::EventReply.new
   end
 
@@ -41,7 +40,6 @@ class SampleServer < Coprocess::Dispatcher::Service
     puts "Calling MyPostMiddleware"
     return coprocess_object
   end
-  
 end
 
 def main
